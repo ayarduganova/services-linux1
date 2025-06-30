@@ -1,0 +1,6 @@
+all:
+  hosts:
+    myhost:
+      ansible_connection: ssh
+      ansible_user: root
+      ansible_host: 127.0.0.1

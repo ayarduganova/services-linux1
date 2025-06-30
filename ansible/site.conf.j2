@@ -1,0 +1,22 @@
+<VirtualHost *:80>
+    ServerName {{ var_host }}
+    ServerAlias www.{{ var_host }} site.{{ var_host }}
+    ServerAdmin webmaster@{{ var_host }}
+    DocumentRoot {{ var_site_path.path }}
+    DirectoryIndex {{ var_index_page_name }}
+    ScriptAlias {{ var_cgi_uri }} {{ var_cgi_path.path }}/{{ var_cgi_script }}
+    ErrorLog ${APACHE_LOG_DIR}/{{ var_host }}_error.log
+    CustomLog ${APACHE_LOG_DIR}/{{ var_host }}_access.log combined
+
+    Alias /original "/var/www/webapp/original"
+    <Directory "/var/www/webapp/original">
+        Options -Indexes
+        Require all granted
+    </Directory>
+
+    Alias /converted "/var/www/webapp/converted"
+    <Directory "/var/www/webapp/converted">
+        Options -Indexes
+        Require all granted
+    </Directory>
+</VirtualHost>

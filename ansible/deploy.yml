@@ -1,0 +1,87 @@
+---
+- name: Web server
+  hosts: all
+  vars:
+    var_host: "converter.test"
+    var_index_page_name: default.html
+    var_cgi_script: cgi-script
+    var_cgi_uri: "/converter"
+  tasks:
+
+    # Обновление всех пакетов
+    - name: Upgrade packages
+      ansible.builtin.apt:
+        upgrade: full
+        update_cache: "yes"
+
+    # Установка стандартных пакетов
+    - name: Install std pkg
+      ansible.builtin.apt:
+        name:
+          - ubuntu-server
+          - bash-completion
+          - imagemagick
+        state: present
+
+
+    # Установка веб-сервера
+    - name: Install Apache HTTP server
+      ansible.builtin.apt:
+        name: apache2
+        state: present
+
+    # Создание каталога для HTML файлов
+    - name: Create HTML directory
+      ansible.builtin.file:
+        path: "/var/www/webapp/html"
+        owner: www-data
+        mode: '0755'
+        state: directory
+      register: var_site_path
+
+    # Копирование html файлов на веб-сервер
+    - name: Copy HTML file
+      ansible.builtin.copy:
+        src: "html/"
+        dest: "/var/www/webapp/html/"
+        mode: ug+rw,o+r
+
+    # Создание каталога для CGI скриптов
+    - name: Create CGI directory
+      ansible.builtin.file:
+        path: "/var/www/webapp/cgi-bin"
+        state: directory
+        mode: ug+rwx,o+rx
+      register: var_cgi_path
+
+    # Копирование файла index.html на веб-сервер
+    - name: Copy CGI file
+      ansible.builtin.copy:
+        dest: "{{ var_cgi_path.path }}/{{ var_cgi_script }}"
+        src: "cgi-script.py"
+        mode: '0555'
+      register: cgi_script_file
+
+    # Создание конфигурационного файла веб-сервера
+    - name: Generate site config file
+      ansible.builtin.template:
+        src: "site.conf.j2"
+        dest: "/etc/apache2/sites-available/{{ var_host }}.conf"
+        mode: ug+rw,o+r
+
+    # Включение сайта
+    - name: Enable site config
+      ansible.builtin.command:
+        a2ensite "{{ var_host }}"
+
+    # Выключение стандартного сайта
+    - name: Disable default site
+      ansible.builtin.command:
+        a2dissite 000-default
+      tags: ski
+
+    # Включение модуля CGI
+    - name: Enable CGI
+      community.general.apache2_module:
+        name: cgid
+        state: present
