@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Result</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f5f5f5;
+            color: #333;
+            line-height: 1.6;
+        }
+        
+        h1 {
+            color: #2c3e50;
+            text-align: center;
+            margin-bottom: 30px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #3498db;
+        }
+        
+        ul {
+            list-style-type: none;
+            padding: 0;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            padding: 30px;
+        }
+        
+        li {
+            margin-bottom: 15px;
+        }
+        
+        a {
+            display: block;
+            padding: 12px 20px;
+            background-color: #3498db;
+            color: white;
+            text-decoration: none;
+            border-radius: 4px;
+            text-align: center;
+            transition: background-color 0.3s;
+            font-weight: bold;
+        }
+        
+        a:hover {
+            background-color: #2980b9;
+        }
+        
+        hr {
+            border: 0;
+            height: 1px;
+            background: #ddd;
+            margin: 30px 0;
+        }
+        
+        @media (max-width: 600px) {
+            body {
+                padding: 10px;
+            }
+            
+            ul {
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <h1>Готово!</h1>
+
+    <ul>
+        <li><a href="/original/{{filename}}">Ваш оригинал</a></li>
+        <li><a href="/converted/{{filename}}">Ваша картинка в чёрно-белом варианте</a></li>
+        <li><a href="/">Вернуться</a></li>
+    </ul>
+
+    <hr>
+</body>
+</html>

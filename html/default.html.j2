@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Конвертер изображений</title>
+</head>
+<body>
+<h1>Конвертер изображений в черно-белые</h1>
+<form method="post" action="{{ var_cgi_uri }}" enctype="multipart/form-data">
+    <p><label>Выберите изображение (JPEG/PNG): <input type="file" name="image" accept="image/jpeg,image/png"></label></p>
+    <p>
+        <input type="submit" value="Конвертировать">
+    </p>
+</form>
+</body>
+</html>
